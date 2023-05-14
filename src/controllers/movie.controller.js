@@ -16,12 +16,12 @@ const getMovies = catchAsync(async (req, res) => {
   res.send(result)
 })
 
-const getUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.params.userId)
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
+const getMovie = catchAsync(async (req, res) => {
+  const movie = await movieService.getMovieById(req.params.movieId)
+  if (!movie) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Movie not found')
   }
-  res.send(user)
+  res.send(movie)
 })
 
 const updateUser = catchAsync(async (req, res) => {
@@ -37,7 +37,7 @@ const deleteUser = catchAsync(async (req, res) => {
 module.exports = {
   createMovie,
   getMovies,
-  getUser,
+  getMovie,
   updateUser,
   deleteUser,
 }

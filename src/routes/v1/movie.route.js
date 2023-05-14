@@ -18,11 +18,7 @@ router
 
 router
   .route('/:movieId')
-  .get(
-    auth('getUsers'),
-    validate(movieValidation.getUser),
-    userController.getUser
-  )
+  .get(validate(movieValidation.getMovie), movieController.getMovie)
   .patch(
     auth('manageUsers'),
     validate(movieValidation.updateUser),

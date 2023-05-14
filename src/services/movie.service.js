@@ -33,8 +33,8 @@ const queryMovies = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const getUserById = async (id) => {
-  return User.findById(id)
+const getMovieById = async (id) => {
+  return Movie.findById(id)
 }
 
 /**
@@ -53,7 +53,7 @@ const getUserByEmail = async (email) => {
  * @returns {Promise<User>}
  */
 const updateUserById = async (userId, updateBody) => {
-  const user = await getUserById(userId)
+  const user = await getMovieById(userId)
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
   }
@@ -71,7 +71,7 @@ const updateUserById = async (userId, updateBody) => {
  * @returns {Promise<User>}
  */
 const deleteUserById = async (userId) => {
-  const user = await getUserById(userId)
+  const user = await getMovieById(userId)
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
   }
@@ -82,7 +82,7 @@ const deleteUserById = async (userId) => {
 module.exports = {
   createMovie,
   queryMovies,
-  getUserById,
+  getMovieById,
   getUserByEmail,
   updateUserById,
   deleteUserById,
