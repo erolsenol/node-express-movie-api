@@ -2,7 +2,7 @@ const httpStatus = require('http-status')
 const pick = require('../utils/pick')
 const ApiError = require('../utils/ApiError')
 const catchAsync = require('../utils/catchAsync')
-const { userService, movieService } = require('../services')
+const { movieService } = require('../services')
 
 const createMovie = catchAsync(async (req, res) => {
   const movie = await movieService.createMovie(req.body)
@@ -24,13 +24,13 @@ const getMovie = catchAsync(async (req, res) => {
   res.send(movie)
 })
 
-const updateUser = catchAsync(async (req, res) => {
-  const user = await userService.updateUserById(req.params.userId, req.body)
-  res.send(user)
+const updateMovie = catchAsync(async (req, res) => {
+  const movie = await movieService.updateMovieById(req.params.movieId, req.body)
+  res.send(movie)
 })
 
-const deleteUser = catchAsync(async (req, res) => {
-  await userService.deleteUserById(req.params.userId)
+const deleteMovie = catchAsync(async (req, res) => {
+  await movieService.deleteMovieById(req.params.movieId)
   res.status(httpStatus.NO_CONTENT).send()
 })
 
@@ -38,6 +38,6 @@ module.exports = {
   createMovie,
   getMovies,
   getMovie,
-  updateUser,
-  deleteUser,
+  updateMovie,
+  deleteMovie,
 }

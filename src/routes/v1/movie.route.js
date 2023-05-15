@@ -3,7 +3,6 @@ const auth = require('../../middlewares/auth')
 const validate = require('../../middlewares/validate')
 const movieValidation = require('../../validations/movie.validation')
 const movieController = require('../../controllers/movie.controller')
-const userController = require('../../controllers/user.controller')
 
 const router = express.Router()
 
@@ -20,14 +19,14 @@ router
   .route('/:movieId')
   .get(validate(movieValidation.getMovie), movieController.getMovie)
   .patch(
-    auth('manageUsers'),
-    validate(movieValidation.updateUser),
-    userController.updateUser
+    auth('manageMovie'),
+    validate(movieValidation.updateMovie),
+    movieController.updateMovie
   )
   .delete(
-    auth('manageUsers'),
-    validate(movieValidation.deleteUser),
-    userController.deleteUser
+    auth('manageMovie'),
+    validate(movieValidation.deleteMovie),
+    movieController.deleteMovie
   )
 
 module.exports = router

@@ -1,10 +1,10 @@
 const httpStatus = require('http-status')
-const { User, Movie } = require('../models')
+const { Movie } = require('../models')
 const ApiError = require('../utils/ApiError')
 
 /**
- * Create a user
- * @param {Object} userBody
+ * Create a movie
+ * @param {Object} movieBody
  * @returns {Promise<User>}
  */
 const createMovie = async (movieBody) => {
@@ -29,7 +29,7 @@ const queryMovies = async (filter, options) => {
 }
 
 /**
- * Get user by id
+ * Get movie by id
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
@@ -38,52 +38,40 @@ const getMovieById = async (id) => {
 }
 
 /**
- * Get user by email
- * @param {string} email
- * @returns {Promise<User>}
- */
-const getUserByEmail = async (email) => {
-  return User.findOne({ email })
-}
-
-/**
- * Update user by id
+ * Update movie by id
  * @param {ObjectId} userId
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateUserById = async (userId, updateBody) => {
-  const user = await getMovieById(userId)
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
+const updateMovieById = async (movieId, updateBody) => {
+  const movie = await getMovieById(movieId)
+  if (!movie) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Movie not found')
   }
-  if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
-  }
-  Object.assign(user, updateBody)
-  await user.save()
-  return user
+
+  Object.assign(movie, updateBody)
+  await movie.save()
+  return movie
 }
 
 /**
- * Delete user by id
+ * Delete movie by id
  * @param {ObjectId} userId
  * @returns {Promise<User>}
  */
-const deleteUserById = async (userId) => {
-  const user = await getMovieById(userId)
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
+const deleteMovieById = async (movieId) => {
+  const movie = await getMovieById(movieId)
+  if (!movie) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Movie not found')
   }
-  await user.remove()
-  return user
+  await movie.remove()
+  return movie
 }
 
 module.exports = {
   createMovie,
   queryMovies,
   getMovieById,
-  getUserByEmail,
-  updateUserById,
-  deleteUserById,
+  updateMovieById,
+  deleteMovieById,
 }

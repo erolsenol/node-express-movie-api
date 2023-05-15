@@ -61,6 +61,12 @@ const movieSchema = mongoose.Schema(
     tomatoes: {
       type: Object,
     },
+    qualities: {
+      type: Array,
+    },
+    urls: {
+      type: Array,
+    },
   },
   {
     timestamps: true,
