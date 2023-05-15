@@ -33,6 +33,10 @@ const createMovie = {
       meter: Joi.number(),
       lastUpdated: Joi.date(),
     }),
+    qualities: Joi.array().items(Joi.string()),
+    urls: Joi.array().items(
+      Joi.object({ title: Joi.string(), url: Joi.string() })
+    ),
   }),
 }
 
