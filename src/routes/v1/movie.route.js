@@ -34,17 +34,17 @@ module.exports = router
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User management and retrieval
+ *   name: Movies
+ *   description: Movie management and retrieval
  */
 
 /**
  * @swagger
- * /users:
+ * /movies:
  *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
+ *     summary: Create a movie
+ *     description: Only admins can create other movies.
+ *     tags: [Movies]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -72,19 +72,19 @@ module.exports = router
  *                 description: At least one number and one letter
  *               role:
  *                  type: string
- *                  enum: [user, admin]
+ *                  enum: [movie, admin]
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
- *               role: user
+ *               role: movie
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Movie'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -93,9 +93,9 @@ module.exports = router
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all movies
+ *     description: Only admins can retrieve all movies.
+ *     tags: [Movies]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -103,12 +103,12 @@ module.exports = router
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
+ *         description: Movie name
  *       - in: query
  *         name: role
  *         schema:
  *           type: string
- *         description: User role
+ *         description: Movie role
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -120,7 +120,7 @@ module.exports = router
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of movies
  *       - in: query
  *         name: page
  *         schema:
@@ -139,7 +139,7 @@ module.exports = router
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Movie'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -160,11 +160,11 @@ module.exports = router
 
 /**
  * @swagger
- * /users/{id}:
+ * /movies/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a movie
+ *     description: Logged in movies can fetch only their own movie information. Only admins can fetch other movies.
+ *     tags: [Movies]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -173,14 +173,14 @@ module.exports = router
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Movie id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Movie'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -189,9 +189,9 @@ module.exports = router
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
- *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     summary: Update a movie
+ *     description: Logged in movies can only update their own information. Only admins can update other movies.
+ *     tags: [Movies]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -200,7 +200,7 @@ module.exports = router
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Movie id
  *     requestBody:
  *       required: true
  *       content:
@@ -229,7 +229,7 @@ module.exports = router
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Movie'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -240,9 +240,9 @@ module.exports = router
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     summary: Delete a movie
+ *     description: Logged in movies can delete only themselves. Only admins can delete other movies.
+ *     tags: [Movies]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -251,7 +251,7 @@ module.exports = router
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Movie id
  *     responses:
  *       "200":
  *         description: No content

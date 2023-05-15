@@ -5,17 +5,17 @@ const ApiError = require('../utils/ApiError')
 /**
  * Create a movie
  * @param {Object} movieBody
- * @returns {Promise<User>}
+ * @returns {Promise<Movie>}
  */
 const createMovie = async (movieBody) => {
-  // if (await User.isEmailTaken(userBody.email)) {
+  // if (await Movie.isEmailTaken(userBody.email)) {
   //   throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
   // }
   return Movie.create(movieBody)
 }
 
 /**
- * Query for users
+ * Query for movies
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
  * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
@@ -31,7 +31,7 @@ const queryMovies = async (filter, options) => {
 /**
  * Get movie by id
  * @param {ObjectId} id
- * @returns {Promise<User>}
+ * @returns {Promise<Movie>}
  */
 const getMovieById = async (id) => {
   return Movie.findById(id)
@@ -41,7 +41,7 @@ const getMovieById = async (id) => {
  * Update movie by id
  * @param {ObjectId} userId
  * @param {Object} updateBody
- * @returns {Promise<User>}
+ * @returns {Promise<Movie>}
  */
 const updateMovieById = async (movieId, updateBody) => {
   const movie = await getMovieById(movieId)
@@ -57,7 +57,7 @@ const updateMovieById = async (movieId, updateBody) => {
 /**
  * Delete movie by id
  * @param {ObjectId} userId
- * @returns {Promise<User>}
+ * @returns {Promise<Movie>}
  */
 const deleteMovieById = async (movieId) => {
   const movie = await getMovieById(movieId)
