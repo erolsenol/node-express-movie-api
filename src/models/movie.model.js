@@ -5,15 +5,24 @@ const movieSchema = mongoose.Schema(
   {
     plot: {
       type: String,
-      required: true,
+
       trim: true,
     },
     fullplot: {
       type: String,
-      required: true,
+
       trim: true,
     },
     genres: {
+      type: Array,
+    },
+    category: {
+      type: Array,
+    },
+    languages: {
+      type: Array,
+    },
+    labels: {
       type: Array,
     },
     runtime: {
@@ -27,9 +36,20 @@ const movieSchema = mongoose.Schema(
     },
     title: {
       type: String,
-      required: true,
-      unique: true,
+
       trim: true,
+    },
+    title0: {
+      type: String,
+    },
+    title1: {
+      type: String,
+    },
+    title2: {
+      type: String,
+    },
+    fetchedSite: {
+      type: String,
     },
     countries: {
       type: Array,
@@ -50,7 +70,10 @@ const movieSchema = mongoose.Schema(
       type: String,
     },
     year: {
-      type: String,
+      type: Number,
+    },
+    endYear: {
+      type: Number,
     },
     imdb: {
       type: Object,
@@ -64,7 +87,21 @@ const movieSchema = mongoose.Schema(
     qualities: {
       type: Array,
     },
+    url: {
+      type: String,
+    },
+    sourceUrl: {
+      type: String,
+    },
+    uhd: { type: Boolean },
+    hd: { type: Boolean },
+    minutes: {
+      type: Number,
+    },
     urls: {
+      type: Array,
+    },
+    tags: {
       type: Array,
     },
   },
