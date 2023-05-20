@@ -9,7 +9,7 @@ const router = express.Router()
 router
   .route('/')
   .post(
-    auth('createMovie'),
+    // auth('createMovie'),
     validate(movieValidation.createMovie),
     movieController.createMovie
   )
@@ -27,6 +27,18 @@ router
     auth('manageMovie'),
     validate(movieValidation.deleteMovie),
     movieController.deleteMovie
+  )
+  .patch(
+    '/image-upload',
+    validate(movieValidation.uploadImage),
+    movieController.uploadImage
+  )
+
+router
+  .route('/get-title-by-one')
+  .get(
+    validate(movieValidation.getMovieByTitleOne),
+    movieController.getMovieByTitleOne
   )
 
 module.exports = router

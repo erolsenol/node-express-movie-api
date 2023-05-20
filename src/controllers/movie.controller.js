@@ -34,10 +34,22 @@ const deleteMovie = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send()
 })
 
+const uploadImage = catchAsync(async (req, res) => {
+  const movie = await movieService.uploadImage(req.params.movieId, req.body)
+  res.status(httpStatus.CREATED).send(movie)
+})
+
+const getMovieByTitleOne = catchAsync(async (req, res) => {
+  const result = await movieService.getMovieByTitleOne(req.body)
+  res.send(result)
+})
+
 module.exports = {
   createMovie,
   getMovies,
   getMovie,
   updateMovie,
   deleteMovie,
+  uploadImage,
+  getMovieByTitleOne,
 }

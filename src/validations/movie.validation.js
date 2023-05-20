@@ -51,6 +51,14 @@ const createMovie = {
       Joi.object({ title: Joi.string(), url: Joi.string() })
     ),
     tags: Joi.array().items(Joi.string()),
+    img: Joi.object({ data: Joi.custom(), contentType: Joi.string() }),
+    imgs: Joi.array().items(
+      Joi.object({
+        name: Joi.string(),
+        data: Joi.custom(),
+        contentType: Joi.string(),
+      })
+    ),
   }),
 }
 
@@ -122,7 +130,15 @@ const updateMovie = {
       urls: Joi.array().items(
         Joi.object({ title: Joi.string(), url: Joi.string() })
       ),
-      tags: Joi.array().items(Joi.string()),
+      tags: Joi.array().items(Joi.Buffer()),
+      img: Joi.object({ data: Joi.custom(), contentType: Joi.string() }),
+      imgs: Joi.array().items(
+        Joi.object({
+          name: Joi.string(),
+          data: Joi.custom(),
+          contentType: Joi.string(),
+        })
+      ),
     })
     .min(1),
 }
@@ -133,10 +149,34 @@ const deleteMovie = {
   }),
 }
 
+const uploadImage = {
+  params: Joi.object().keys({
+    movieId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    imgs: Joi.array().items(
+      Joi.object({
+        name: Joi.string(),
+        data: Joi.custom(),
+        contentType: Joi.string(),
+      })
+    ),
+  }),
+}
+
+const getMovieByTitleOne = {
+  body: Joi.object().keys({
+    title: Joi.string(),
+    title0: Joi.string(),
+  }),
+}
+
 module.exports = {
   createMovie,
   getMovies,
   getMovie,
   updateMovie,
   deleteMovie,
+  uploadImage,
+  getMovieByTitleOne,
 }

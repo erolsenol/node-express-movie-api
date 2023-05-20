@@ -104,6 +104,13 @@ const movieSchema = mongoose.Schema(
     tags: {
       type: Array,
     },
+    img: {
+      data: Buffer,
+      contentType: String,
+    },
+    imgs: {
+      type: Array,
+    },
   },
   {
     timestamps: true,

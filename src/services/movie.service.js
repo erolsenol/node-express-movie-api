@@ -38,6 +38,15 @@ const getMovieById = async (id) => {
 }
 
 /**
+ * Get movie by title
+ * @param {String} title
+ * @returns {Promise<Movie>}
+ */
+const getMovieByTitle = async (title) => {
+  return Movie.findById(title)
+}
+
+/**
  * Update movie by id
  * @param {ObjectId} userId
  * @param {Object} updateBody
@@ -68,10 +77,32 @@ const deleteMovieById = async (movieId) => {
   return movie
 }
 
+const uploadImage = async (movieId, imageBody) => {
+  const movie = await getMovieById(movieId)
+  if (!movie) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Movie not found')
+  }
+
+  movie.imgs = [...movie.imgs, ...imageBody.imgs]
+  await movie.save()
+  return movie
+}
+
+const getMovieByTitleOne = async (titleBody) => {
+  const movie = await getMovieByTitle(titleBody)
+  if (!movie) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Movie not found')
+  }
+
+  return movie
+}
+
 module.exports = {
   createMovie,
   queryMovies,
   getMovieById,
   updateMovieById,
   deleteMovieById,
+  uploadImage,
+  getMovieByTitleOne,
 }
