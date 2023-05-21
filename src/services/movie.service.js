@@ -1,6 +1,7 @@
 const httpStatus = require('http-status')
 const { Movie } = require('../models')
 const ApiError = require('../utils/ApiError')
+// const logger = require('../config/logger')
 
 /**
  * Create a movie
@@ -42,8 +43,8 @@ const getMovieById = async (id) => {
  * @param {String} title
  * @returns {Promise<Movie>}
  */
-const getMovieByTitle = async (title) => {
-  return Movie.findById(title)
+const getMovieByTitle = async (body) => {
+  return Movie.find({ title: body.title })
 }
 
 /**
@@ -90,6 +91,7 @@ const uploadImage = async (movieId, imageBody) => {
 
 const getMovieByTitleOne = async (titleBody) => {
   const movie = await getMovieByTitle(titleBody)
+
   if (!movie) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Movie not found')
   }

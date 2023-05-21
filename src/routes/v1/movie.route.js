@@ -16,6 +16,17 @@ router
   .get(validate(movieValidation.getMovies), movieController.getMovies)
 
 router
+  .route('/image-upload')
+  .patch(validate(movieValidation.uploadImage), movieController.uploadImage)
+
+router
+  .route('/get-title-by-one')
+  .get(
+    validate(movieValidation.getMovieByTitleOne),
+    movieController.getMovieByTitleOne
+  )
+
+router
   .route('/:movieId')
   .get(validate(movieValidation.getMovie), movieController.getMovie)
   .patch(
@@ -27,18 +38,6 @@ router
     auth('manageMovie'),
     validate(movieValidation.deleteMovie),
     movieController.deleteMovie
-  )
-  .patch(
-    '/image-upload',
-    validate(movieValidation.uploadImage),
-    movieController.uploadImage
-  )
-
-router
-  .route('/get-title-by-one')
-  .get(
-    validate(movieValidation.getMovieByTitleOne),
-    movieController.getMovieByTitleOne
   )
 
 module.exports = router

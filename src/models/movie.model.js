@@ -5,12 +5,10 @@ const movieSchema = mongoose.Schema(
   {
     plot: {
       type: String,
-
       trim: true,
     },
     fullplot: {
       type: String,
-
       trim: true,
     },
     genres: {
@@ -36,7 +34,6 @@ const movieSchema = mongoose.Schema(
     },
     title: {
       type: String,
-
       trim: true,
     },
     title0: {

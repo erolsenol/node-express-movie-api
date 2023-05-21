@@ -51,11 +51,14 @@ const createMovie = {
       Joi.object({ title: Joi.string(), url: Joi.string() })
     ),
     tags: Joi.array().items(Joi.string()),
-    img: Joi.object({ data: Joi.custom(), contentType: Joi.string() }),
+    img: Joi.object({
+      data: Joi.binary().encoding('base64'),
+      contentType: Joi.string(),
+    }),
     imgs: Joi.array().items(
       Joi.object({
         name: Joi.string(),
-        data: Joi.custom(),
+        data: Joi.binary().encoding('base64'),
         contentType: Joi.string(),
       })
     ),
@@ -130,12 +133,15 @@ const updateMovie = {
       urls: Joi.array().items(
         Joi.object({ title: Joi.string(), url: Joi.string() })
       ),
-      tags: Joi.array().items(Joi.Buffer()),
-      img: Joi.object({ data: Joi.custom(), contentType: Joi.string() }),
+      tags: Joi.array().items(Joi.string()),
+      img: Joi.object({
+        data: Joi.binary().encoding('base64'),
+        contentType: Joi.string(),
+      }),
       imgs: Joi.array().items(
         Joi.object({
           name: Joi.string(),
-          data: Joi.custom(),
+          data: Joi.binary().encoding('base64'),
           contentType: Joi.string(),
         })
       ),
@@ -157,7 +163,7 @@ const uploadImage = {
     imgs: Joi.array().items(
       Joi.object({
         name: Joi.string(),
-        data: Joi.custom(),
+        data: Joi.binary().encoding('base64'),
         contentType: Joi.string(),
       })
     ),
