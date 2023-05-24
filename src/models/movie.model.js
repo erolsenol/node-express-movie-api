@@ -5,12 +5,10 @@ const movieSchema = mongoose.Schema(
   {
     plot: {
       type: String,
-
       trim: true,
     },
     fullplot: {
       type: String,
-
       trim: true,
     },
     genres: {
@@ -36,7 +34,6 @@ const movieSchema = mongoose.Schema(
     },
     title: {
       type: String,
-
       trim: true,
     },
     title0: {
@@ -92,6 +89,7 @@ const movieSchema = mongoose.Schema(
     },
     sourceUrl: {
       type: String,
+      unique: true,
     },
     uhd: { type: Boolean },
     hd: { type: Boolean },
@@ -102,6 +100,12 @@ const movieSchema = mongoose.Schema(
       type: Array,
     },
     tags: {
+      type: Array,
+    },
+    img: {
+      type: String,
+    },
+    imgs: {
       type: Array,
     },
   },

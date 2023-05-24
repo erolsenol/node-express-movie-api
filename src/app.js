@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const helmet = require('helmet')
 const xss = require('xss-clean')
 const mongoSanitize = require('express-mongo-sanitize')
@@ -25,7 +26,8 @@ if (config.env !== 'test') {
 app.use(helmet())
 
 // parse json request body
-app.use(express.json())
+// app.use(express.json())
+app.use(bodyParser.json({ limit: '50mb' }))
 
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }))
