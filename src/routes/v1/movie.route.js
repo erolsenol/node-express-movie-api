@@ -16,21 +16,34 @@ router
   .get(validate(movieValidation.getMovies), movieController.getMovies)
 
 router
-  .route('/image-upload')
+  .route('/search-title')
+  .post(validate(movieValidation.searchTitle), movieController.searchTitle)
+
+router
+  .route('/image-upload/:movieId')
   .patch(validate(movieValidation.uploadImage), movieController.uploadImage)
 
 router
   .route('/get-title-by-one')
-  .get(
+  .post(
     validate(movieValidation.getMovieByTitleOne),
     movieController.getMovieByTitleOne
   )
 
 router
+  .route('/get-movie-by-source-url')
+  .post(
+    validate(movieValidation.getMovieBySourceUrl),
+    movieController.getMovieBySourceUrl
+  )
+
+router.route('/delete-all-img').delete(movieController.deleteAllImg)
+
+router
   .route('/:movieId')
   .get(validate(movieValidation.getMovie), movieController.getMovie)
   .patch(
-    auth('manageMovie'),
+    // auth('manageMovie'),
     validate(movieValidation.updateMovie),
     movieController.updateMovie
   )

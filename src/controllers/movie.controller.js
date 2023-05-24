@@ -39,8 +39,24 @@ const uploadImage = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(movie)
 })
 
+const searchTitle = catchAsync(async (req, res) => {
+  const options = pick(req.query, ['limit', 'page'])
+  const movie = await movieService.searchTitle(req.body, options)
+  res.send(movie)
+})
+
 const getMovieByTitleOne = catchAsync(async (req, res) => {
   const result = await movieService.getMovieByTitleOne(req.body)
+  res.send(result)
+})
+
+const getMovieBySourceUrl = catchAsync(async (req, res) => {
+  const result = await movieService.getMovieBySourceUrl(req.body)
+  res.send(result)
+})
+
+const deleteAllImg = catchAsync(async (req, res) => {
+  const result = await movieService.deleteAllImg()
   res.send(result)
 })
 
@@ -52,4 +68,7 @@ module.exports = {
   deleteMovie,
   uploadImage,
   getMovieByTitleOne,
+  deleteAllImg,
+  getMovieBySourceUrl,
+  searchTitle,
 }

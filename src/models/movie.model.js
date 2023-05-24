@@ -89,6 +89,7 @@ const movieSchema = mongoose.Schema(
     },
     sourceUrl: {
       type: String,
+      unique: true,
     },
     uhd: { type: Boolean },
     hd: { type: Boolean },
@@ -102,8 +103,7 @@ const movieSchema = mongoose.Schema(
       type: Array,
     },
     img: {
-      data: Buffer,
-      contentType: String,
+      type: String,
     },
     imgs: {
       type: Array,

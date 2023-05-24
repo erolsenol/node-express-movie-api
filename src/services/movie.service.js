@@ -1,7 +1,7 @@
 const httpStatus = require('http-status')
 const { Movie } = require('../models')
 const ApiError = require('../utils/ApiError')
-// const logger = require('../config/logger')
+const logger = require('../config/logger')
 
 /**
  * Create a movie
@@ -89,7 +89,25 @@ const uploadImage = async (movieId, imageBody) => {
   return movie
 }
 
+const searchTitle = async (body, { limit = 20, page = 0 }) => {
+  const movie = await Movie.find({
+    title: { $regex: body.title, $options: 'i' },
+  })
+    .skip(Number(page) * Number(limit))
+    .limit(Number(limit))
+  if (!movie) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Movie not found')
+  }
+
+  // movie.forEach((element) => logger.warn(element.title))
+
+  // logger.warn(`movie: ${movie.length}`)
+
+  return movie
+}
+
 const getMovieByTitleOne = async (titleBody) => {
+  logger.warn(titleBody.title)
   const movie = await getMovieByTitle(titleBody)
 
   if (!movie) {
@@ -97,6 +115,22 @@ const getMovieByTitleOne = async (titleBody) => {
   }
 
   return movie
+}
+
+const getMovieBySourceUrl = async (body) => {
+  const movie = await Movie.find({ sourceUrl: body.sourceUrl })
+
+  if (!movie) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Movie not found')
+  }
+
+  return movie
+}
+
+const deleteAllImg = async () => {
+  const result = await Movie.updateMany({}, { $unset: { img: '' } })
+
+  return result
 }
 
 module.exports = {
@@ -107,4 +141,7 @@ module.exports = {
   deleteMovieById,
   uploadImage,
   getMovieByTitleOne,
+  deleteAllImg,
+  getMovieBySourceUrl,
+  searchTitle,
 }

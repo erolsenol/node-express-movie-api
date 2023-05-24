@@ -46,22 +46,13 @@ const createMovie = {
     hd: Joi.boolean(),
     minutes: Joi.number(),
     url: Joi.string(),
-    sourceUrl: Joi.string(),
+    sourceUrl: Joi.string().required(),
     urls: Joi.array().items(
       Joi.object({ title: Joi.string(), url: Joi.string() })
     ),
     tags: Joi.array().items(Joi.string()),
-    img: Joi.object({
-      data: Joi.binary().encoding('base64'),
-      contentType: Joi.string(),
-    }),
-    imgs: Joi.array().items(
-      Joi.object({
-        name: Joi.string(),
-        data: Joi.binary().encoding('base64'),
-        contentType: Joi.string(),
-      })
-    ),
+    img: Joi.string(),
+    imgs: Joi.array().items(Joi.string()),
   }),
 }
 
@@ -129,22 +120,13 @@ const updateMovie = {
       hd: Joi.boolean(),
       minutes: Joi.number(),
       url: Joi.string(),
-      sourceUrl: Joi.string(),
+      sourceUrl: Joi.string().required(),
       urls: Joi.array().items(
         Joi.object({ title: Joi.string(), url: Joi.string() })
       ),
       tags: Joi.array().items(Joi.string()),
-      img: Joi.object({
-        data: Joi.binary().encoding('base64'),
-        contentType: Joi.string(),
-      }),
-      imgs: Joi.array().items(
-        Joi.object({
-          name: Joi.string(),
-          data: Joi.binary().encoding('base64'),
-          contentType: Joi.string(),
-        })
-      ),
+      img: Joi.string(),
+      imgs: Joi.array().items(Joi.string()),
     })
     .min(1),
 }
@@ -170,10 +152,22 @@ const uploadImage = {
   }),
 }
 
+const searchTitle = {
+  body: Joi.object().keys({
+    title: Joi.string().required().min(3),
+  }),
+}
+
 const getMovieByTitleOne = {
   body: Joi.object().keys({
     title: Joi.string(),
     title0: Joi.string(),
+  }),
+}
+
+const getMovieBySourceUrl = {
+  body: Joi.object().keys({
+    sourceUrl: Joi.string().required(),
   }),
 }
 
@@ -185,4 +179,6 @@ module.exports = {
   deleteMovie,
   uploadImage,
   getMovieByTitleOne,
+  getMovieBySourceUrl,
+  searchTitle,
 }
