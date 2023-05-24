@@ -9,17 +9,41 @@ const router = express.Router()
 router
   .route('/')
   .post(
-    auth('createMovie'),
+    // auth('createMovie'),
     validate(movieValidation.createMovie),
     movieController.createMovie
   )
   .get(validate(movieValidation.getMovies), movieController.getMovies)
 
 router
+  .route('/search-title')
+  .post(validate(movieValidation.searchTitle), movieController.searchTitle)
+
+router
+  .route('/image-upload/:movieId')
+  .patch(validate(movieValidation.uploadImage), movieController.uploadImage)
+
+router
+  .route('/get-title-by-one')
+  .post(
+    validate(movieValidation.getMovieByTitleOne),
+    movieController.getMovieByTitleOne
+  )
+
+router
+  .route('/get-movie-by-source-url')
+  .post(
+    validate(movieValidation.getMovieBySourceUrl),
+    movieController.getMovieBySourceUrl
+  )
+
+router.route('/delete-all-img').delete(movieController.deleteAllImg)
+
+router
   .route('/:movieId')
   .get(validate(movieValidation.getMovie), movieController.getMovie)
   .patch(
-    auth('manageMovie'),
+    // auth('manageMovie'),
     validate(movieValidation.updateMovie),
     movieController.updateMovie
   )
