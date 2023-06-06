@@ -33,29 +33,23 @@ const filterMovies = async (
   body,
   { page = 1, limit = 20, sortBy = 'desc' }
 ) => {
+  const findObj = {}
+
+  Object.keys(body).forEach((key) => {
+    if (key === 'title') {
+      findObj[key] = { $regex: body[key], $options: 'i' }
+    } else {
+      findObj[key] = { $in: body[key] }
+    }
+  })
+
   let totalCount = 0
 
-  await Movie.countDocuments(
-    {
-      title: { $regex: body.title, $options: 'i' },
-    },
-    function (err, count) {
-      totalCount = count
-    }
-  )
+  await Movie.countDocuments(findObj, function (err, count) {
+    totalCount = count
+  })
 
-  const movies = await Movie.find(
-    {
-      title: { $regex: body.title, $options: 'i' },
-    }
-    // null,
-    // {
-    //   skip: page,
-    //   limit,
-    // }
-  )
-    .skip(page)
-    .limit(limit)
+  const movies = await Movie.find(findObj).skip(page).limit(limit)
 
   const res = {
     results: movies,
