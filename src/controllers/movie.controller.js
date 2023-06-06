@@ -16,6 +16,12 @@ const getMovies = catchAsync(async (req, res) => {
   res.send(result)
 })
 
+const getFilterMovies = catchAsync(async (req, res) => {
+  const options = pick(req.query, ['sortBy', 'limit', 'page'])
+  const result = await movieService.filterMovies(req.body, options)
+  res.send(result)
+})
+
 const getMovie = catchAsync(async (req, res) => {
   const movie = await movieService.getMovieById(req.params.movieId)
   if (!movie) {
@@ -71,4 +77,5 @@ module.exports = {
   deleteAllImg,
   getMovieBySourceUrl,
   searchTitle,
+  getFilterMovies,
 }

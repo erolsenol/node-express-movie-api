@@ -29,6 +29,45 @@ const queryMovies = async (filter, options) => {
   return movies
 }
 
+const filterMovies = async (
+  body,
+  { page = 1, limit = 20, sortBy = 'desc' }
+) => {
+  let totalCount = 0
+
+  await Movie.countDocuments(
+    {
+      title: { $regex: body.title, $options: 'i' },
+    },
+    function (err, count) {
+      totalCount = count
+    }
+  )
+
+  const movies = await Movie.find(
+    {
+      title: { $regex: body.title, $options: 'i' },
+    }
+    // null,
+    // {
+    //   skip: page,
+    //   limit,
+    // }
+  )
+    .skip(page)
+    .limit(limit)
+
+  const res = {
+    results: movies,
+    page,
+    limit,
+    totalPages: Math.ceil(totalCount / limit),
+    totalResults: totalCount,
+  }
+
+  return res
+}
+
 /**
  * Get movie by id
  * @param {ObjectId} id
@@ -144,4 +183,5 @@ module.exports = {
   deleteAllImg,
   getMovieBySourceUrl,
   searchTitle,
+  filterMovies,
 }

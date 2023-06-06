@@ -16,6 +16,13 @@ router
   .get(validate(movieValidation.getMovies), movieController.getMovies)
 
 router
+  .route('/filter')
+  .post(
+    validate(movieValidation.getFilterMovies),
+    movieController.getFilterMovies
+  )
+
+router
   .route('/search-title')
   .post(validate(movieValidation.searchTitle), movieController.searchTitle)
 
