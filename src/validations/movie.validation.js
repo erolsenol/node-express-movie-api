@@ -65,6 +65,23 @@ const getMovies = {
   }),
 }
 
+const getFilterMovies = {
+  query: Joi.object().keys({
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+  body: Joi.object().keys({
+    title: Joi.string(),
+    genres: Joi.array().items(Joi.string()),
+    category: Joi.array().items(Joi.string()),
+    languages: Joi.array().items(Joi.string()),
+    labels: Joi.array().items(Joi.string()),
+    cast: Joi.array().items(Joi.string()),
+    directors: Joi.array().items(Joi.string()),
+  }),
+}
+
 const getMovie = {
   params: Joi.object().keys({
     movieId: Joi.string().custom(objectId),
@@ -181,4 +198,5 @@ module.exports = {
   getMovieByTitleOne,
   getMovieBySourceUrl,
   searchTitle,
+  getFilterMovies,
 }
