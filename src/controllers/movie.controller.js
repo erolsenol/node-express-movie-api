@@ -3,6 +3,7 @@ const pick = require('../utils/pick')
 const ApiError = require('../utils/ApiError')
 const catchAsync = require('../utils/catchAsync')
 const { movieService } = require('../services')
+// const logger = require('../config/logger')
 
 const createMovie = catchAsync(async (req, res) => {
   const movie = await movieService.createMovie(req.body)
