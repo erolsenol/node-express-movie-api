@@ -137,7 +137,7 @@ const updateMovie = {
       hd: Joi.boolean(),
       minutes: Joi.number(),
       url: Joi.string(),
-      sourceUrl: Joi.string().required(),
+      sourceUrl: Joi.string(),
       urls: Joi.array().items(
         Joi.object({ title: Joi.string(), url: Joi.string() })
       ),
