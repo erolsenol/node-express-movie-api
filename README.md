@@ -1,21 +1,23 @@
-# Node Express movie API
+# Node Express Movie API
 
-An older Express REST API boilerplate adapted for movie-related work.
+A small TypeScript REST API for an in-memory movie catalog. The previous Express generator source is preserved under `legacy/` for reference.
 
-> **Status:** Historical example; currently not actively maintained.
+## Requirements and commands
 
-## Local commands
-
-These commands reflect the repository scripts. This historical project has not been validated against current runtimes.
+Node.js 22 or newer.
 
 ```sh
-npm install
+npm ci
 npm run dev
-npm run start
-npm run test
 ```
-See the existing `.env.example` for local configuration. This is an adapted historical boilerplate, not a currently supported API service.
 
-## Use and maintenance
+The API listens on port `3000` by default. Set `PORT` to change it. Run checks with `npm test`, `npm run typecheck`, and `npm run build`.
 
-This repository is retained as a public record of earlier work. Dependencies and third-party services may have changed. Review the source and configuration before running it. No license is granted unless a `LICENSE` file is present.
+## Endpoints
+
+- `GET /health`
+- `GET /movies` and `GET /movies/:id`
+- `POST /movies` and `PUT /movies/:id` with `{ "title": "Arrival", "year": 2016, "genre": "Sci-fi" }`
+- `DELETE /movies/:id`
+
+Movie data lives in memory and resets when the process restarts. Add a persistent repository adapter before using this as a production data service. No license is granted unless a `LICENSE` file is present.
