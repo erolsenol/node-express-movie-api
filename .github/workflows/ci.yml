@@ -16,3 +16,23 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
       - run: npm audit --audit-level=high
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate Compose definitions
+        run: |
+          docker compose config --quiet
+          docker compose -f docker-compose.yml -f docker-compose.dev.yml config --quiet
+          docker compose -f docker-compose.yml -f docker-compose.test.yml config --quiet
+          docker compose -f docker-compose.yml -f docker-compose.prod.yml config --quiet
+      - run: docker build -t movie-api:ci .
+      - name: Verify container health
+        run: |
+          docker run -d --name movie-api-ci -p 127.0.0.1:3000:3000 movie-api:ci
+          trap 'docker logs movie-api-ci; docker rm -f movie-api-ci' EXIT
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:3000/health; then break; fi
+            sleep 1
+          done
+          test "$(curl --fail --silent http://127.0.0.1:3000/health)" = '{"status":"ok"}'

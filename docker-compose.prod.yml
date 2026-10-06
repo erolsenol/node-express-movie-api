@@ -1,6 +1,3 @@
-version: '3'
-
 services:
   node-app:
-    container_name: node-app-prod
-    command: yarn start
+    restart: unless-stopped
