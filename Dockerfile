@@ -1,15 +1,20 @@
-FROM node:alpine
-
-RUN mkdir -p /usr/src/node-app && chown -R node:node /usr/src/node-app
-
-WORKDIR /usr/src/node-app
-
-COPY package.json yarn.lock ./
-
-USER node
-
-RUN yarn install --pure-lockfile
-
-COPY --chown=node:node . .
-
+FROM node:22-alpine AS development
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --no-fund --no-audit
+COPY . .
 EXPOSE 3000
+CMD ["npm", "run", "dev"]
+
+FROM development AS build
+RUN npm run build
+
+FROM node:22-alpine AS production
+ENV NODE_ENV=production
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --no-fund --no-audit && npm cache clean --force
+COPY --from=build --chown=node:node /app/dist ./dist
+USER node
+EXPOSE 3000
+CMD ["node", "dist/server.js"]

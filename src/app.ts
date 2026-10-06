@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type ErrorRequestHandler } from 'express';
 import { MovieRepository, movieInputSchema } from './movies.js';
 
 export function createApp(repository = new MovieRepository()) {
@@ -27,5 +27,21 @@ export function createApp(repository = new MovieRepository()) {
     if (!repository.delete(request.params.id)) return response.status(404).json({ error: 'Movie not found' });
     return response.status(204).end();
   });
+  app.use((_request, response) => response.status(404).json({ error: 'Route not found' }));
+  const handleError: ErrorRequestHandler = (error: unknown, _request, response, next) => {
+    if (response.headersSent) return next(error);
+    const errorType = typeof error === 'object' && error !== null && 'type' in error ? error.type : undefined;
+    if (errorType === 'entity.parse.failed') {
+      response.status(400).json({ error: 'Malformed JSON' });
+    } else if (errorType === 'entity.too.large') {
+      response.status(413).json({ error: 'Request body too large' });
+    } else if (errorType === 'encoding.unsupported' || errorType === 'charset.unsupported') {
+      response.status(415).json({ error: 'Unsupported body encoding' });
+    } else {
+      console.error('Unhandled request error', error);
+      response.status(500).json({ error: 'Internal server error' });
+    }
+  };
+  app.use(handleError);
   return app;
 }
